@@ -1,0 +1,240 @@
+[
+  {
+    "id": "eval-1-hardcoded-openai-key",
+    "prompt": "Review this code:\n\n```python\nimport openai\n\nopenai.api_key = 'sk-proj-abcdef1234567890'\n\ndef chat(message):\n    return openai.ChatCompletion.create(\n        model='gpt-4',\n        messages=[{'role': 'user', 'content': message}]\n    )\n```",
+    "expectations": [
+      "Identifies CRITICAL severity",
+      "Notes hardcoded API key vulnerability",
+      "References CWE-798 or similar",
+      "Explains theft/cost risk",
+      "Recommends environment variables",
+      "Suggests immediate key rotation",
+      "Mentions .gitignore for .env files",
+      "May suggest secrets management tools"
+    ]
+  },
+  {
+    "id": "eval-2-prompt-injection-basic",
+    "prompt": "Is this safe?\n\n```python\ndef process_query(user_input):\n    prompt = f\"You are a helpful assistant. {user_input}\"\n    return llm.generate(prompt)\n```",
+    "expectations": [
+      "Identifies HIGH risk for prompt injection",
+      "Notes user input directly in prompt",
+      "Explains OWASP LLM01 vulnerability",
+      "Provides example attack ('ignore previous instructions')",
+      "Recommends separating user content from instructions",
+      "Suggests input validation",
+      "Recommends structured prompts with delimiters"
+    ]
+  },
+  {
+    "id": "eval-3-sql-injection-via-llm",
+    "prompt": "Check this database query function:\n\n```python\ndef search_database(user_question):\n    sql = llm.generate(f'Create SQL for: {user_question}')\n    results = db.execute(sql)\n    return results\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes SQL injection via LLM outputs (OWASP LLM02)",
+      "Explains database compromise risk",
+      "Recommends NEVER executing LLM-generated SQL",
+      "Suggests parameterized queries",
+      "Recommends query allowlists",
+      "Notes this is insecure output handling"
+    ]
+  },
+  {
+    "id": "eval-4-pii-in-prompts",
+    "prompt": "Review this user analysis code:\n\n```javascript\nasync function analyzeUser(userId) {\n  const user = await db.getUser(userId);\n  const analysis = await openai.complete({\n    prompt: `Analyze user:\n             Name: ${user.name}\n             Email: ${user.email}\n             SSN: ${user.ssn}\n             Address: ${user.address}`\n  });\n  return analysis;\n}\n```",
+    "expectations": [
+      "Identifies HIGH or CRITICAL risk",
+      "Notes PII exposure (OWASP LLM06)",
+      "Mentions SSN, email, address as sensitive",
+      "References GDPR, HIPAA, or privacy regulations",
+      "Recommends data minimization",
+      "Suggests anonymization/redaction",
+      "Notes need for user consent",
+      "May suggest local model for sensitive data"
+    ]
+  },
+  {
+    "id": "eval-5-aws-credentials-hardcoded",
+    "prompt": "Is there a security issue here?\n\n```python\nimport boto3\n\nAWS_ACCESS_KEY = 'AKIAIOSFODNN7EXAMPLE'\nAWS_SECRET_KEY = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'\n\ns3 = boto3.client(\n    's3',\n    aws_access_key_id=AWS_ACCESS_KEY,\n    aws_secret_access_key=AWS_SECRET_KEY\n)\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes hardcoded AWS credentials",
+      "Explains full AWS account compromise risk",
+      "Recommends environment variables or IAM roles",
+      "Suggests immediate credential rotation",
+      "May mention AWS Secrets Manager",
+      "Notes potential for data theft, resource abuse"
+    ]
+  },
+  {
+    "id": "eval-6-code-execution-from-llm",
+    "prompt": "Check this automation code:\n\n```python\ndef automate_task(task_description):\n    code = llm.generate(f'Write Python code for: {task_description}')\n    result = exec(code)\n    return result\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes arbitrary code execution risk",
+      "Explains OWASP LLM02 insecure output handling",
+      "Recommends NEVER using exec() with LLM output",
+      "Suggests sandboxed execution if needed",
+      "Recommends code review/validation",
+      "Notes potential for system compromise"
+    ]
+  },
+  {
+    "id": "eval-7-database-connection-string",
+    "prompt": "Review this config:\n\n```python\n# config.py\nDATABASE_URL = 'postgresql://admin:MyP@ssw0rd123@db.example.com:5432/production'\n\nclass Config:\n    SQLALCHEMY_DATABASE_URI = DATABASE_URL\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes hardcoded database credentials",
+      "Points out password in connection string",
+      "Recommends environment variables",
+      "Suggests secrets management",
+      "Notes risk if code is in git repository",
+      "Mentions database compromise risk"
+    ]
+  },
+  {
+    "id": "eval-8-xss-via-llm-output",
+    "prompt": "Is this web app safe?\n\n```javascript\nasync function displayResponse(userQuery) {\n  const response = await llm.complete(userQuery);\n  document.getElementById('output').innerHTML = response;\n}\n```",
+    "expectations": [
+      "Identifies HIGH or CRITICAL XSS vulnerability",
+      "Notes unsanitized LLM output rendered as HTML",
+      "Explains XSS attack scenario",
+      "Recommends output sanitization/escaping",
+      "Suggests using textContent instead of innerHTML",
+      "Or recommends DOMPurify or similar library",
+      "Notes OWASP LLM02 insecure output handling"
+    ]
+  },
+  {
+    "id": "eval-9-indirect-prompt-injection",
+    "prompt": "Check this document summarizer:\n\n```python\ndef summarize_document(url):\n    content = fetch_webpage(url)\n    summary = llm.generate(f'Summarize this: {content}')\n    return summary\n```",
+    "expectations": [
+      "Identifies HIGH risk",
+      "Notes indirect prompt injection vulnerability",
+      "Explains malicious content in external sources",
+      "Describes attack scenario (hidden instructions in webpage)",
+      "Recommends content validation",
+      "Suggests sanitizing external content",
+      "Notes OWASP LLM01 prompt injection"
+    ]
+  },
+  {
+    "id": "eval-10-excessive-llm-permissions",
+    "prompt": "Review this AI assistant:\n\n```python\ndef ai_assistant(user_command):\n    action = llm.decide(user_command)\n    \n    if action['type'] == 'delete_files':\n        delete_all_files(action['path'])\n    elif action['type'] == 'send_email':\n        send_email_to_all_users(action['message'])\n    elif action['type'] == 'modify_database':\n        db.execute(action['sql'])\n```",
+    "expectations": [
+      "Identifies CRITICAL or HIGH risk",
+      "Notes excessive agency (OWASP LLM08)",
+      "Points out autonomous destructive actions",
+      "Recommends user confirmation for sensitive operations",
+      "Suggests least privilege principle",
+      "Notes need for action allowlists",
+      "Recommends rate limiting"
+    ]
+  },
+  {
+    "id": "eval-11-no-rate-limiting",
+    "prompt": "Is this API endpoint secure?\n\n```python\n@app.route('/chat', methods=['POST'])\ndef chat():\n    message = request.json['message']\n    response = openai.ChatCompletion.create(\n        model='gpt-4',\n        messages=[{'role': 'user', 'content': message}]\n    )\n    return jsonify(response)\n```",
+    "expectations": [
+      "Identifies MEDIUM or HIGH risk",
+      "Notes lack of rate limiting",
+      "Mentions DoS and cost risks",
+      "Recommends implementing rate limits",
+      "Suggests cost monitoring",
+      "May mention authentication needs",
+      "Notes OWASP LLM09 unbounded consumption"
+    ]
+  },
+  {
+    "id": "eval-12-api-key-in-frontend",
+    "prompt": "Check this React component:\n\n```javascript\nconst ChatWidget = () => {\n  const OPENAI_KEY = 'sk-proj-abc123';\n  \n  const sendMessage = async (msg) => {\n    const response = await fetch('https://api.openai.com/v1/chat', {\n      headers: {\n        'Authorization': `Bearer ${OPENAI_KEY}`\n      },\n      body: JSON.stringify({message: msg})\n    });\n  };\n}\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes API key in client-side code",
+      "Explains anyone can extract from browser",
+      "Recommends backend API proxy",
+      "Notes immediate key rotation needed",
+      "Explains cost/abuse risk",
+      "May mention browser dev tools exposure"
+    ]
+  },
+  {
+    "id": "eval-13-logging-sensitive-data",
+    "prompt": "Review this logging:\n\n```python\ndef process_request(user_input, api_key):\n    logger.info(f'Processing request: {user_input}')\n    logger.debug(f'Using API key: {api_key}')\n    \n    response = llm.generate(user_input)\n    logger.info(f'Response: {response}')\n    return response\n```",
+    "expectations": [
+      "Identifies HIGH risk",
+      "Notes API key logged in plaintext",
+      "Points out sensitive data in logs",
+      "Recommends not logging secrets",
+      "Suggests log sanitization",
+      "May note compliance issues (GDPR, PCI DSS)",
+      "Recommends secure log storage"
+    ]
+  },
+  {
+    "id": "eval-14-unverified-model-source",
+    "prompt": "Is this safe?\n\n```python\nimport transformers\n\n# Load model from random GitHub\nmodel = transformers.AutoModel.from_pretrained(\n    'random-user/suspicious-model'\n)\n```",
+    "expectations": [
+      "Identifies MEDIUM or HIGH risk",
+      "Notes supply chain vulnerability (OWASP LLM03)",
+      "Points out unverified model source",
+      "Recommends using official sources only",
+      "Suggests verifying checksums",
+      "Notes potential for backdoored models",
+      "Recommends security scanning of models"
+    ]
+  },
+  {
+    "id": "eval-15-stripe-key-committed",
+    "prompt": "Review this payment code:\n\n```python\nimport stripe\n\nstripe.api_key = 'sk_live_51HvJ9EKl...'  # Live key!\n\ndef charge_customer(amount, customer_id):\n    charge = stripe.Charge.create(\n        amount=amount,\n        currency='usd',\n        customer=customer_id\n    )\n    return charge\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes hardcoded Stripe live key",
+      "Explains financial fraud risk",
+      "Notes this is production key (sk_live_)",
+      "Recommends immediate key rotation",
+      "Suggests environment variables",
+      "Notes PCI DSS compliance issues",
+      "Emphasizes severity of payment key exposure"
+    ]
+  },
+  {
+    "id": "eval-16-rag-without-sanitization",
+    "prompt": "Check this RAG implementation:\n\n```python\ndef answer_question(question):\n    # Fetch from vector database\n    docs = vector_db.search(question)\n    \n    # Include all retrieved content\n    context = '\\n'.join([doc.content for doc in docs])\n    \n    prompt = f'Context: {context}\\nQuestion: {question}'\n    answer = llm.generate(prompt)\n    return answer\n```",
+    "expectations": [
+      "Identifies MEDIUM or HIGH risk",
+      "Notes potential for RAG poisoning",
+      "Points out no validation of retrieved content",
+      "Mentions indirect prompt injection via documents",
+      "Recommends content validation/sanitization",
+      "Suggests monitoring document sources",
+      "May note OWASP LLM01 or LLM04"
+    ]
+  },
+  {
+    "id": "eval-17-jwt-secret-hardcoded",
+    "prompt": "Review this auth code:\n\n```javascript\nconst jwt = require('jsonwebtoken');\n\nconst JWT_SECRET = 'super-secret-key-123';\n\nfunction generateToken(userId) {\n  return jwt.sign({userId}, JWT_SECRET, {expiresIn: '24h'});\n}\n```",
+    "expectations": [
+      "Identifies CRITICAL vulnerability",
+      "Notes hardcoded JWT secret",
+      "Explains authentication bypass risk",
+      "Notes attacker can forge tokens",
+      "Recommends environment variables",
+      "Suggests cryptographically secure secret",
+      "Notes need for secret rotation"
+    ]
+  },
+  {
+    "id": "eval-18-safe-implementation",
+    "prompt": "Review this code:\n\n```python\nimport os\nimport openai\nfrom flask_limiter import Limiter\n\n# Load from environment\nopenai.api_key = os.getenv('OPENAI_API_KEY')\n\nif not openai.api_key:\n    raise ValueError('API key not configured')\n\n# Rate limiting\nlimiter = Limiter(app, default_limits=['100 per hour'])\n\n@app.route('/chat', methods=['POST'])\n@limiter.limit('10 per minute')\ndef chat():\n    message = request.json.get('message', '')\n    \n    # Input validation\n    if len(message) > 1000:\n        return 'Message too long', 400\n    \n    # Structured prompt\n    messages = [\n        {'role': 'system', 'content': 'You are a helpful assistant.'},\n        {'role': 'user', 'content': message}\n    ]\n    \n    response = openai.ChatCompletion.create(\n        model='gpt-4',\n        messages=messages,\n        max_tokens=500\n    )\n    \n    return jsonify({'response': response.choices[0].message.content})\n```",
+    "expectations": [
+      "Identifies this as LOW risk or secure",
+      "Acknowledges environment variables used correctly",
+      "Notes rate limiting is implemented",
+      "Recognizes input validation present",
+      "Acknowledges structured prompts",
+      "Notes max_tokens limit",
+      "May suggest additional improvements but no critical issues",
+      "Praises security best practices"
+    ]
+  }
+]

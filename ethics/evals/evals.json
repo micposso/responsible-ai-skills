@@ -1,0 +1,267 @@
+[
+  {
+    "id": "eval-1-hiring-bias-gender",
+    "prompt": "Review this resume screening AI:\n\n```python\nimport pandas as pd\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Train on historical hiring data\nhistorical_hires = pd.read_csv('past_successful_hires.csv')\n\nmodel = RandomForestClassifier()\nmodel.fit(historical_hires[['experience', 'education', 'skills']], \n          historical_hires['hired'])\n\ndef screen_resume(resume):\n    prediction = model.predict([resume])\n    return 'Pass' if prediction == 1 else 'Reject'\n```",
+    "expectations": [
+      "Identifies HIGH or CRITICAL bias risk",
+      "Notes training on historical biased decisions",
+      "Points out no bias testing across protected classes",
+      "Mentions gender/race bias in historical hiring",
+      "References Title VII, EEOC guidelines",
+      "Recommends fairness testing",
+      "Suggests bias audit before deployment",
+      "Notes NYC AI Hiring Law may apply",
+      "Recommends testing disparate impact"
+    ]
+  },
+  {
+    "id": "eval-2-no-diversity-training-data",
+    "prompt": "Check this facial recognition training:\n\n```python\n# Training facial recognition\ntraining_images = load_images('datasets/tech_employees/')\n# Dataset: 85% white males, 12% Asian males, 3% others\n\nmodel.train(training_images)\n```",
+    "expectations": [
+      "Identifies CRITICAL representation issue",
+      "Notes severe lack of diversity in training data",
+      "Points out underrepresentation of women, minorities",
+      "Explains model will perform poorly on underrepresented groups",
+      "Recommends balanced, diverse dataset",
+      "References fairness across demographics",
+      "Suggests testing accuracy by demographic",
+      "May mention real-world biased facial recognition cases"
+    ]
+  },
+  {
+    "id": "eval-3-lending-disparate-impact",
+    "prompt": "Review this loan approval system:\n\n```python\ndef approve_loan(applicant):\n    score = calculate_credit_score(applicant)\n    \n    # Approval threshold\n    if score > 700:\n        return 'Approved'\n    else:\n        return 'Denied'\n\n# Test results:\n# White applicants: 75% approval rate\n# Black applicants: 45% approval rate\n# Hispanic applicants: 50% approval rate\n```",
+    "expectations": [
+      "Identifies CRITICAL disparate impact violation",
+      "Calculates 4/5ths rule (45/75 = 60% < 80%)",
+      "References Equal Credit Opportunity Act",
+      "Notes illegal lending discrimination",
+      "Points out adverse impact on protected classes",
+      "Recommends fairness audit",
+      "Suggests investigating root cause",
+      "Requires adverse action notices with specific reasons",
+      "Legal risk is extremely high"
+    ]
+  },
+  {
+    "id": "eval-4-inaccessible-chatbot",
+    "prompt": "Check this AI chatbot interface:\n\n```html\n<div class=\"chatbot\">\n  <div id=\"messages\"></div>\n  <input type=\"text\" id=\"user-input\" placeholder=\"Type here\">\n  <button onclick=\"sendMessage()\">Send</button>\n</div>\n\n<script>\nfunction sendMessage() {\n  const input = document.getElementById('user-input').value;\n  const response = await callAI(input);\n  document.getElementById('messages').innerHTML += \n    `<div style=\"color: green\">${response}</div>`;\n}\n</script>\n```",
+    "expectations": [
+      "Identifies HIGH accessibility violations",
+      "Notes missing ARIA labels for screen readers",
+      "Points out color-only information (green text)",
+      "Mentions no keyboard navigation support",
+      "References WCAG 2.1 AA requirements",
+      "Notes ADA compliance issues",
+      "Recommends semantic HTML and ARIA",
+      "Suggests proper contrast ratios",
+      "Points out dynamically added content not announced"
+    ]
+  },
+  {
+    "id": "eval-5-no-explanation-credit-denial",
+    "prompt": "Review this credit decision system:\n\n```python\ndef decide_credit_application(applicant):\n    decision = black_box_model.predict(applicant)\n    \n    if decision == 'denied':\n        return {\n            'status': 'denied',\n            'reason': 'Application does not meet our criteria'\n        }\n```",
+    "expectations": [
+      "Identifies HIGH or CRITICAL transparency violation",
+      "Notes lack of specific explanation",
+      "References Equal Credit Opportunity Act adverse action requirements",
+      "Mentions GDPR Article 22 right to explanation",
+      "Points out generic reason is inadequate",
+      "Recommends explainable AI methods",
+      "Suggests feature importance or SHAP values",
+      "Notes legal requirement for specific reasons",
+      "Mentions right to challenge decision"
+    ]
+  },
+  {
+    "id": "eval-6-age-discrimination",
+    "prompt": "Check this job matching algorithm:\n\n```python\ndef match_candidates(job):\n    candidates = get_all_candidates()\n    \n    # Prefer 'digital natives'\n    scored = []\n    for c in candidates:\n        score = calculate_fit(c, job)\n        \n        # Boost younger candidates\n        if c.age < 35:\n            score *= 1.3\n        \n        scored.append((c, score))\n    \n    return sorted(scored, key=lambda x: x[1], reverse=True)\n```",
+    "expectations": [
+      "Identifies CRITICAL age discrimination",
+      "Notes explicit age-based preference",
+      "References Age Discrimination in Employment Act (ADEA)",
+      "Points out illegal preference for under 35",
+      "Notes protected class is 40+, but any age bias problematic",
+      "Recommends removing age factor entirely",
+      "Suggests age-blind evaluation",
+      "Legal risk is extremely high",
+      "This is blatant discrimination"
+    ]
+  },
+  {
+    "id": "eval-7-ai-images-no-alt-text",
+    "prompt": "Review this AI image generator integration:\n\n```python\n@app.route('/generate-image')\ndef generate_image():\n    prompt = request.args.get('prompt')\n    image_url = ai_image_service.generate(prompt)\n    \n    return f'<img src=\"{image_url}\">'\n```",
+    "expectations": [
+      "Identifies HIGH accessibility violation",
+      "Notes missing alt text for AI-generated images",
+      "References WCAG 2.1 success criterion 1.1.1",
+      "Points out screen reader users can't access content",
+      "Recommends generating descriptive alt text",
+      "Suggests using AI to describe its own image",
+      "Notes ADA/Section 508 compliance issues",
+      "May suggest AI-generated caption as alt text"
+    ]
+  },
+  {
+    "id": "eval-8-proxy-discrimination-zipcode",
+    "prompt": "Check this insurance pricing:\n\n```python\ndef calculate_premium(customer):\n    base_rate = 100\n    \n    # Adjust by zip code\n    zip_multiplier = zip_code_risk[customer.zip_code]\n    \n    premium = base_rate * zip_multiplier\n    return premium\n\n# Zip codes with high minority populations have 2.5x multiplier\n# Primarily white zip codes have 1.0x multiplier\n```",
+    "expectations": [
+      "Identifies HIGH or CRITICAL proxy discrimination",
+      "Notes zip code as proxy for race",
+      "Points out redlining concerns",
+      "References Fair Housing Act concerns",
+      "Mentions disparate impact on minorities",
+      "Explains how facially neutral factors can discriminate",
+      "Recommends disparate impact testing",
+      "Suggests alternative risk factors",
+      "Legal and ethical issues"
+    ]
+  },
+  {
+    "id": "eval-9-no-bias-testing",
+    "prompt": "Review this hiring system about to launch:\n\n```python\n# Production deployment checklist\n# [x] Model accuracy: 87%\n# [x] API endpoints working\n# [x] Database connected\n# [ ] Bias testing - skipped due to timeline\n# [x] Ready to deploy\n\ndef rank_candidates(job_id):\n    candidates = get_applicants(job_id)\n    scores = model.predict_proba(candidates)\n    return sorted(zip(candidates, scores), key=lambda x: x[1])\n```",
+    "expectations": [
+      "Identifies CRITICAL compliance failure",
+      "Notes no bias testing before deployment",
+      "Points out this is used for hiring (protected context)",
+      "References NYC AI Hiring Law requirements",
+      "Mentions bias audit is legally required",
+      "Notes EU AI Act high-risk classification",
+      "Recommends mandatory bias testing",
+      "Cannot deploy without fairness evaluation",
+      "Legal liability is extreme"
+    ]
+  },
+  {
+    "id": "eval-10-medical-diagnosis-bias",
+    "prompt": "Check this medical AI:\n\n```python\n# Trained on data from: 90% white patients, 8% Asian, 2% Black/Hispanic\n\ndef diagnose_condition(symptoms, patient_data):\n    diagnosis = medical_ai.predict(symptoms)\n    confidence = medical_ai.predict_proba(symptoms)\n    \n    return {\n        'diagnosis': diagnosis,\n        'confidence': confidence\n    }\n```",
+    "expectations": [
+      "Identifies CRITICAL bias in healthcare",
+      "Notes severe underrepresentation of minorities",
+      "Points out diagnostic accuracy will vary by race",
+      "Explains health disparities will be worsened",
+      "Recommends diverse, representative data",
+      "Suggests testing accuracy across demographics",
+      "Notes potential for misdiagnosis",
+      "References healthcare equity concerns",
+      "This could cause serious harm"
+    ]
+  },
+  {
+    "id": "eval-11-keyboard-navigation-missing",
+    "prompt": "Review this AI chat interface:\n\n```javascript\n<div class=\"chat-container\">\n  <div id=\"chat-messages\"></div>\n  <div class=\"input-area\">\n    <div contenteditable=\"true\" \n         id=\"message-input\"\n         onclick=\"focusInput()\"></div>\n    <div class=\"send-button\" \n         onclick=\"sendMessage()\">Send</div>\n  </div>\n</div>\n```",
+    "expectations": [
+      "Identifies HIGH accessibility violation",
+      "Notes no keyboard navigation (onclick only)",
+      "Points out contenteditable without proper ARIA",
+      "Mentions button as div (not semantic)",
+      "References WCAG 2.1 keyboard accessible",
+      "Notes users can't tab through interface",
+      "Recommends proper button elements",
+      "Suggests keyboard event handlers",
+      "Screen reader compatibility issues"
+    ]
+  },
+  {
+    "id": "eval-12-cultural-insensitivity",
+    "prompt": "Check this AI content moderator:\n\n```python\ndef moderate_content(text):\n    # Flag offensive content\n    offensive_words = [\n        'allah', 'buddha', 'krishna',  # Religious terms flagged\n        # ... assumes Western context\n    ]\n    \n    for word in offensive_words:\n        if word.lower() in text.lower():\n            return 'BLOCKED: Offensive content'\n    \n    return 'ALLOWED'\n```",
+    "expectations": [
+      "Identifies CRITICAL cultural bias",
+      "Notes religious terms incorrectly flagged as offensive",
+      "Points out Western-centric assumptions",
+      "Explains this discriminates against religious users",
+      "Recommends cultural sensitivity review",
+      "Suggests context-aware moderation",
+      "Notes this could violate religious discrimination laws",
+      "Recommends diverse cultural input",
+      "Explains harm to Muslim/Hindu/Buddhist users"
+    ]
+  },
+  {
+    "id": "eval-13-gender-binary-assumption",
+    "prompt": "Review this user profile system:\n\n```python\nclass UserProfile:\n    def __init__(self):\n        self.gender = None  # Must be 'M' or 'F'\n    \n    def set_gender(self, gender):\n        if gender not in ['M', 'F']:\n            raise ValueError('Gender must be M or F')\n        self.gender = gender\n```",
+    "expectations": [
+      "Identifies MEDIUM or HIGH inclusive design issue",
+      "Notes gender binary assumption",
+      "Points out excludes non-binary/gender diverse users",
+      "Recommends allowing self-identification",
+      "Suggests options: male/female/non-binary/prefer not to say",
+      "Notes some jurisdictions recognize non-binary legally",
+      "Recommends inclusive design principles",
+      "May reference LGBTQ+ inclusion best practices"
+    ]
+  },
+  {
+    "id": "eval-14-no-human-review-option",
+    "prompt": "Check this loan decision system:\n\n```python\ndef process_loan_application(application):\n    decision = ai_model.decide(application)\n    \n    # Fully automated - no human review\n    if decision == 'approved':\n        approve_loan(application)\n    else:\n        deny_loan(application)\n        send_denial_letter(application)\n    \n    return decision\n```",
+    "expectations": [
+      "Identifies HIGH ethics/compliance violation",
+      "Notes no human review for adverse decisions",
+      "References GDPR Article 22 (right to human review)",
+      "Mentions ECOA requirements",
+      "Points out users can't challenge automated decision",
+      "Recommends human-in-the-loop for denials",
+      "Suggests appeal process",
+      "Notes accountability concerns",
+      "Transparency and fairness issues"
+    ]
+  },
+  {
+    "id": "eval-15-accessibility-color-contrast",
+    "prompt": "Review this AI assistant interface:\n\n```css\n.ai-response {\n  background-color: #ffffff;\n  color: #cccccc;  /* Light gray on white */\n}\n\n.error-message {\n  color: #ff0000;  /* Red text, no other indicator */\n}\n```",
+    "expectations": [
+      "Identifies HIGH accessibility violation",
+      "Notes insufficient color contrast (fails WCAG)",
+      "Points out light gray on white is unreadable",
+      "Mentions color-only error indication",
+      "References WCAG 2.1 contrast requirements (4.5:1)",
+      "Notes issues for color blind users",
+      "Recommends sufficient contrast ratios",
+      "Suggests icons/text in addition to color",
+      "May calculate actual contrast ratio"
+    ]
+  },
+  {
+    "id": "eval-16-feedback-loop-bias",
+    "prompt": "Check this recommendation system:\n\n```python\ndef recommend_jobs(user):\n    # Recommend based on past successful applications\n    past_jobs = get_jobs_user_was_hired_for(user)\n    similar_jobs = find_similar_jobs(past_jobs)\n    \n    return similar_jobs\n\n# Pattern: System recommends tech jobs to men, nursing to women\n# This reinforces existing gender segregation\n```",
+    "expectations": [
+      "Identifies HIGH bias amplification",
+      "Notes feedback loop reinforcing stereotypes",
+      "Points out gender segregation being perpetuated",
+      "Explains how bias compounds over time",
+      "Recommends breaking feedback loops",
+      "Suggests showing diverse opportunities",
+      "Notes systemic discrimination concerns",
+      "Recommends monitoring for bias amplification"
+    ]
+  },
+  {
+    "id": "eval-17-english-only-assumption",
+    "prompt": "Review this customer service AI:\n\n```python\ndef handle_customer_query(query):\n    # Assume all queries are in English\n    response = english_language_model.generate(query)\n    \n    if not is_english(query):\n        return \"Sorry, I only understand English.\"\n    \n    return response\n```",
+    "expectations": [
+      "Identifies MEDIUM or HIGH inclusive design issue",
+      "Notes language barrier excludes non-English speakers",
+      "Points out accessibility for limited English proficiency",
+      "May reference digital divide concerns",
+      "Recommends multilingual support",
+      "Suggests language detection and translation",
+      "Notes legal requirements in some jurisdictions",
+      "May mention diverse user base considerations"
+    ]
+  },
+  {
+    "id": "eval-18-ethical-best-practices",
+    "prompt": "Review this hiring AI:\n\n```python\nclass FairHiringAI:\n    def __init__(self):\n        # Diverse training data from multiple sources\n        self.training_data = load_balanced_dataset()\n        \n    def evaluate_candidate(self, resume):\n        score = self.model.predict(resume)\n        \n        # Explain decision\n        explanation = self.explainer.explain(resume)\n        \n        return {\n            'score': score,\n            'explanation': explanation,\n            'human_review_required': score < 0.7\n        }\n    \n    def bias_audit(self):\n        # Test fairness across protected classes\n        demographics = ['race', 'gender', 'age']\n        for demo in demographics:\n            fairness_metrics = calculate_fairness(demo)\n            assert fairness_metrics['disparate_impact'] > 0.8\n        \n        return 'PASSED'\n```",
+    "expectations": [
+      "Identifies this as LOW risk or ethical",
+      "Acknowledges balanced diverse training data",
+      "Notes explainability is implemented",
+      "Recognizes human review for borderline cases",
+      "Acknowledges bias testing across protected classes",
+      "Notes disparate impact threshold (4/5ths rule)",
+      "Praises fairness-by-design approach",
+      "May suggest additional improvements",
+      "Overall exemplifies ethical AI practices"
+    ]
+  }
+]

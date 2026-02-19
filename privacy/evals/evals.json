@@ -1,0 +1,254 @@
+[
+  {
+    "id": "eval-1-facial-recognition-no-consent",
+    "prompt": "Review this photo upload feature:\n\n```python\nimport face_recognition\n\ndef register_user_face(user_id, photo):\n    face_encoding = face_recognition.face_encodings(photo)[0]\n    db.faces.insert({'user_id': user_id, 'encoding': face_encoding.tolist()})\n    return 'Face registered successfully'\n```",
+    "expectations": [
+      "Identifies CRITICAL privacy violation",
+      "Notes biometric data collection without consent",
+      "References GDPR Article 9 (special category data)",
+      "Mentions Illinois BIPA requirements",
+      "Points out need for explicit written consent",
+      "Recommends DPIA (Data Protection Impact Assessment)",
+      "Suggests retention limits for biometric data",
+      "Notes right to deletion requirement"
+    ]
+  },
+  {
+    "id": "eval-2-workplace-emotion-detection",
+    "prompt": "Check this employee monitoring system:\n\n```javascript\nclass EmployeeMonitor {\n  async analyzeProductivity(employeeId) {\n    const webcam = await accessWebcam(employeeId);\n    const emotions = await analyzeEmotions(webcam);\n    \n    if (emotions.stress > 0.8 || emotions.engagement < 0.3) {\n      alertManager(employeeId, emotions);\n    }\n    \n    return saveEmotionLog(employeeId, emotions);\n  }\n}\n```",
+    "expectations": [
+      "Identifies CRITICAL violation - EU AI Act prohibition",
+      "Notes workplace emotion recognition is BANNED",
+      "References EU AI Act Article 5(1)(f)",
+      "Mentions power imbalance in workplace",
+      "Points out biometric data processing",
+      "Notes chilling effect on employee behavior",
+      "Recommends immediate cessation",
+      "Suggests objective productivity metrics instead"
+    ]
+  },
+  {
+    "id": "eval-3-children-data-no-parental-consent",
+    "prompt": "Review this signup form:\n\n```python\n@app.route('/signup', methods=['POST'])\ndef create_account():\n    name = request.form['name']\n    email = request.form['email']\n    age = int(request.form['age'])\n    \n    user = User.create(name=name, email=email, age=age)\n    start_tracking(user.id)\n    \n    return redirect('/dashboard')\n```",
+    "expectations": [
+      "Identifies CRITICAL privacy violation",
+      "Notes missing age verification and parental consent",
+      "References COPPA (under 13) and GDPR (under 16)",
+      "Points out behavioral tracking of potential minors",
+      "Recommends parental consent mechanism",
+      "Suggests age-gating",
+      "Notes FTC/GDPR enforcement risk",
+      "Recommends data minimization for children"
+    ]
+  },
+  {
+    "id": "eval-4-location-tracking-no-consent",
+    "prompt": "Is this geolocation implementation compliant?\n\n```javascript\nfunction startApp() {\n  navigator.geolocation.watchPosition(pos => {\n    fetch('/api/track', {\n      method: 'POST',\n      body: JSON.stringify({\n        userId: currentUser.id,\n        lat: pos.coords.latitude,\n        lng: pos.coords.longitude,\n        timestamp: Date.now()\n      })\n    });\n  });\n}\n```",
+    "expectations": [
+      "Identifies HIGH privacy issue",
+      "Notes continuous location tracking without consent",
+      "Points out no user permission requested",
+      "Mentions GDPR consent requirements",
+      "Recommends location permission dialog",
+      "Suggests explaining why location is needed",
+      "Notes location linked to user ID",
+      "Recommends retention limits"
+    ]
+  },
+  {
+    "id": "eval-5-facial-scraping-from-internet",
+    "prompt": "Check this dataset collection script:\n\n```python\nimport requests\nfrom bs4 import BeautifulSoup\nimport face_recognition\n\ndef scrape_faces_from_web():\n    for url in social_media_urls:\n        page = requests.get(url)\n        images = extract_images(page)\n        \n        for img in images:\n            faces = face_recognition.face_encodings(img)\n            for face in faces:\n                db.faces.insert({'source': url, 'encoding': face.tolist()})\n```",
+    "expectations": [
+      "Identifies CRITICAL violation",
+      "Notes EU AI Act ABSOLUTE BAN on facial scraping",
+      "References EU AI Act Article 5(1)(e)",
+      "Points out no consent from individuals",
+      "Mentions Clearview AI enforcement cases",
+      "Notes millions in fines for similar violations",
+      "Recommends immediate cessation",
+      "No exceptions for this practice"
+    ]
+  },
+  {
+    "id": "eval-6-biometric-categorization-race",
+    "prompt": "Review this demographic analysis tool:\n\n```python\ndef analyze_customer_demographics(image):\n    analysis = face_analysis_ai.predict(image)\n    \n    return {\n        'race': analysis['race'],\n        'age': analysis['age'],\n        'gender': analysis['gender'],\n        'emotion': analysis['emotion']\n    }\n```",
+    "expectations": [
+      "Identifies CRITICAL violation",
+      "Notes biometric categorization by race is BANNED",
+      "References EU AI Act Article 5(1)(g)",
+      "Points out prohibited characteristics (race)",
+      "Mentions no exceptions for this practice",
+      "Notes potential discrimination",
+      "Recommends removing race categorization entirely",
+      "May note age/gender categorization is high-risk"
+    ]
+  },
+  {
+    "id": "eval-7-no-privacy-policy",
+    "prompt": "Check this user data collection:\n\n```python\nclass UserProfile:\n    def __init__(self, user_id):\n        self.user_id = user_id\n        self.name = None\n        self.email = None\n        self.phone = None\n        self.address = None\n        self.search_history = []\n        self.purchase_history = []\n        self.browsing_data = []\n    \n    def collect_all_data(self):\n        # Collect everything\n        pass\n```",
+    "expectations": [
+      "Identifies HIGH privacy issue",
+      "Notes excessive data collection (no minimization)",
+      "Points out likely missing privacy policy",
+      "Mentions no lawful basis apparent",
+      "Recommends data minimization",
+      "Suggests clear privacy policy",
+      "Notes GDPR transparency requirements",
+      "Recommends purpose limitation"
+    ]
+  },
+  {
+    "id": "eval-8-selling-user-data",
+    "prompt": "Review this data monetization feature:\n\n```python\ndef monetize_user_data():\n    users = db.users.find()\n    \n    for user in users:\n        data_package = {\n            'email': user.email,\n            'interests': user.interests,\n            'purchase_history': user.purchases,\n            'location_history': user.locations\n        }\n        \n        data_broker_api.sell(data_package)\n```",
+    "expectations": [
+      "Identifies CRITICAL privacy violation",
+      "Notes selling personal data without consent",
+      "References GDPR right to object",
+      "Mentions CCPA opt-out requirements",
+      "Points out no disclosure to users",
+      "Recommends explicit consent for data sales",
+      "Notes transparency obligations",
+      "Suggests honoring opt-out requests"
+    ]
+  },
+  {
+    "id": "eval-9-no-data-deletion",
+    "prompt": "Is this account deletion endpoint compliant?\n\n```python\n@app.route('/delete-account', methods=['POST'])\ndef delete_account():\n    user_id = get_current_user_id()\n    \n    # Mark as deleted but keep all data\n    db.users.update({'_id': user_id}, {'$set': {'status': 'deleted'}})\n    \n    return 'Account deleted'\n```",
+    "expectations": [
+      "Identifies HIGH privacy violation",
+      "Notes data not actually deleted (GDPR violation)",
+      "References right to erasure (GDPR Article 17)",
+      "Points out misleading users about deletion",
+      "Recommends actually deleting personal data",
+      "Notes exceptions for legal retention only",
+      "Suggests anonymization if retention needed",
+      "May mention data retention limits"
+    ]
+  },
+  {
+    "id": "eval-10-pre-checked-consent",
+    "prompt": "Check this consent form:\n\n```html\n<form>\n  <input type=\"checkbox\" name=\"marketing\" checked> \n  I agree to receive marketing emails\n  \n  <input type=\"checkbox\" name=\"data_sharing\" checked>\n  I agree to share my data with partners\n  \n  <button>Sign Up</button>\n</form>\n```",
+    "expectations": [
+      "Identifies HIGH privacy violation",
+      "Notes pre-checked boxes invalid under GDPR",
+      "Points out consent must be active opt-in",
+      "Mentions consent must be freely given",
+      "Recommends unchecked by default",
+      "Suggests granular consent options",
+      "Notes consent must be unambiguous",
+      "May mention easy withdrawal needed"
+    ]
+  },
+  {
+    "id": "eval-11-consent-wall",
+    "prompt": "Review this cookie consent:\n\n```javascript\nif (!user.acceptedCookies) {\n  // Block all content until they accept\n  showModal({\n    title: 'Cookie Notice',\n    message: 'We use cookies. Accept to continue.',\n    buttons: ['Accept All']\n    // No reject or customize option\n  });\n  blockContent();\n}\n```",
+    "expectations": [
+      "Identifies HIGH privacy issue",
+      "Notes consent wall (blocking access)",
+      "Points out no reject/customize option",
+      "Mentions consent must be freely given",
+      "Notes GDPR consent requirements",
+      "Recommends allowing rejection",
+      "Suggests granular cookie controls",
+      "May reference recent GDPR guidance on consent walls"
+    ]
+  },
+  {
+    "id": "eval-12-cross-device-tracking",
+    "prompt": "Check this analytics implementation:\n\n```python\ndef track_user_across_devices(user_id):\n    devices = [\n        user.phone_fingerprint,\n        user.tablet_fingerprint,\n        user.laptop_fingerprint\n    ]\n    \n    # Link all devices\n    for device in devices:\n        track_activity(user_id, device)\n    \n    # Share with advertising partners\n    ad_network.sync_profile(user_id, devices)\n```",
+    "expectations": [
+      "Identifies HIGH privacy issue",
+      "Notes cross-device tracking without disclosure",
+      "Points out device fingerprinting",
+      "Mentions sharing with advertising networks",
+      "Recommends consent for tracking",
+      "Suggests transparency about cross-device linking",
+      "Notes ePrivacy Directive requirements",
+      "May mention CCPA opt-out rights"
+    ]
+  },
+  {
+    "id": "eval-13-voice-recording-no-disclosure",
+    "prompt": "Review this voice assistant:\n\n```python\ndef process_voice_command(audio_stream):\n    # Always recording\n    audio_data = capture_audio(audio_stream)\n    \n    # Store all audio\n    db.voice_recordings.insert({\n        'user_id': current_user.id,\n        'audio': audio_data,\n        'timestamp': datetime.now()\n    })\n    \n    # Process command\n    command = speech_to_text(audio_data)\n    return execute_command(command)\n```",
+    "expectations": [
+      "Identifies HIGH privacy violation",
+      "Notes continuous audio recording",
+      "Points out voice is biometric data",
+      "Mentions no disclosure to users",
+      "Recommends clear notification when recording",
+      "Suggests audio indicator (light/icon)",
+      "Notes retention of voice recordings",
+      "Recommends deletion after processing"
+    ]
+  },
+  {
+    "id": "eval-14-school-emotion-detection",
+    "prompt": "Check this classroom engagement tool:\n\n```python\nclass ClassroomMonitor:\n    def analyze_student_engagement(self, student_id):\n        webcam_feed = get_student_camera(student_id)\n        \n        emotions = emotion_ai.analyze(webcam_feed)\n        \n        if emotions['boredom'] > 0.7:\n            alert_teacher(student_id, 'Student appears disengaged')\n        \n        return log_engagement_score(student_id, emotions)\n```",
+    "expectations": [
+      "Identifies CRITICAL violation",
+      "Notes emotion recognition in education is BANNED",
+      "References EU AI Act Article 5(1)(f)",
+      "Points out minors involved (extra protection)",
+      "Mentions power imbalance (teacher/student)",
+      "Recommends immediate cessation",
+      "Notes no medical/safety exception applies here",
+      "Suggests objective engagement metrics instead"
+    ]
+  },
+  {
+    "id": "eval-15-health-data-sharing",
+    "prompt": "Review this health tracking app:\n\n```python\ndef sync_health_data(user_id):\n    health_data = {\n        'heart_rate': get_heart_rate(user_id),\n        'sleep_patterns': get_sleep_data(user_id),\n        'exercise': get_exercise_log(user_id),\n        'weight': get_weight(user_id)\n    }\n    \n    # Share with insurance partner\n    insurance_api.upload_health_data(user_id, health_data)\n    \n    # Share with research partners\n    research_db.insert(health_data)\n```",
+    "expectations": [
+      "Identifies CRITICAL privacy violation",
+      "Notes health data is special category (GDPR Article 9)",
+      "Points out sharing without explicit consent",
+      "Mentions insurance discrimination risk",
+      "Recommends explicit consent for each purpose",
+      "Suggests anonymization for research",
+      "Notes HIPAA implications if applicable",
+      "Recommends separate consent for insurance vs research"
+    ]
+  },
+  {
+    "id": "eval-16-indefinite-retention",
+    "prompt": "Check this data retention policy:\n\n```python\nclass DataRetentionPolicy:\n    # Keep everything forever\n    RETENTION_PERIOD = None  # No limit\n    \n    def should_delete_data(self, data_age):\n        return False  # Never delete\n```",
+    "expectations": [
+      "Identifies HIGH privacy issue",
+      "Notes indefinite data retention",
+      "References GDPR storage limitation principle",
+      "Points out no deletion schedule",
+      "Recommends retention limits",
+      "Suggests automatic deletion",
+      "Notes increased breach risk",
+      "May mention data minimization"
+    ]
+  },
+  {
+    "id": "eval-17-international-transfer-no-safeguards",
+    "prompt": "Review this data transfer:\n\n```python\ndef process_eu_user_data(user_id):\n    eu_user_data = db.users.find_one({'_id': user_id, 'region': 'EU'})\n    \n    # Send to US servers\n    us_api.process(eu_user_data)\n    \n    # Send to China for ML training\n    china_ml_cluster.train(eu_user_data)\n```",
+    "expectations": [
+      "Identifies CRITICAL privacy violation",
+      "Notes international data transfers without safeguards",
+      "References GDPR Chapter V (international transfers)",
+      "Points out transfers to non-adequate countries",
+      "Recommends Standard Contractual Clauses",
+      "Suggests adequacy decision check",
+      "Notes Schrems II implications",
+      "May mention BCRs or other mechanisms"
+    ]
+  },
+  {
+    "id": "eval-18-privacy-compliant-implementation",
+    "prompt": "Review this implementation:\n\n```python\nfrom datetime import datetime, timedelta\n\nclass PrivacyCompliantService:\n    def collect_data(self, user_id, consent_id):\n        # Verify active consent\n        if not self.verify_consent(consent_id):\n            raise ValueError('Valid consent required')\n        \n        # Data minimization - only what's needed\n        data = {\n            'user_id': user_id,\n            'feature_usage': self.get_usage_stats(user_id),\n            # No unnecessary PII\n        }\n        \n        # Set retention limit\n        data['expires_at'] = datetime.now() + timedelta(days=90)\n        \n        # Store with consent reference\n        data['consent_id'] = consent_id\n        \n        return data\n    \n    def handle_deletion_request(self, user_id):\n        # Actually delete data\n        self.db.delete_all_user_data(user_id)\n        self.db.anonymize_analytics(user_id)\n        \n        return 'Data deleted successfully'\n```",
+    "expectations": [
+      "Identifies this as LOW risk or compliant",
+      "Acknowledges consent verification present",
+      "Notes data minimization implemented",
+      "Recognizes retention limits set",
+      "Acknowledges proper deletion handling",
+      "Notes consent tracking",
+      "May suggest additional improvements (privacy policy, DPIA)",
+      "Praises privacy-by-design approach"
+    ]
+  }
+]
