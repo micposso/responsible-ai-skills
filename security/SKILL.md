@@ -1,5 +1,5 @@
 ---
-name: ai-security
+name: security
 description: Analyzes code and AI/LLM applications for security vulnerabilities including prompt injection, hardcoded secrets, API key exposure, data leakage, insecure output handling, and supply chain risks. Complements ai-safety-checker (which focuses on ethical safety). Triggers when reviewing AI/LLM code, API integrations, or when user requests security analysis.
 ---
 

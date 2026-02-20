@@ -1,5 +1,5 @@
 ---
-name: ai-ethics
+name: ethics
 description: Analyzes AI/LLM applications for algorithmic bias, fairness violations, lack of diversity/representation, accessibility issues, transparency gaps, and explainability concerns. Focuses on discrimination across protected classes (race, gender, age, disability), fairness metrics, inclusive design, and ethical AI principles. Complements ai-safety (harm), ai-security (exploits), and ai-privacy (data rights). Triggers when reviewing hiring/lending/scoring systems, training data, model outputs, accessibility, or when user asks about bias, fairness, or ethics.
 ---
 

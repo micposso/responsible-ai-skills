@@ -1,5 +1,5 @@
 ---
-name: ai-safety-checker
+name: safety
 description: Analyzes code, applications, and AI implementations for ethical safety issues and dangerous use cases involving AI or large language models. Focuses on harm to vulnerable populations, autonomous decision-making in high-stakes domains, bias/discrimination, and appropriate human oversight. Does NOT cover security vulnerabilities (use ai-security skill for that). Triggers when reviewing AI/LLM integrations in sensitive domains like healthcare, children's applications, mental health, autonomous systems, or financial/legal advice.
 ---
 

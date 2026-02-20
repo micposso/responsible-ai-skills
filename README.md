@@ -1,4 +1,4 @@
-# Responsible AI Skills
+# Responsible AI AGENT SKILLS
 
 A curated collection of AI evaluation "skills" for reviewing applications that use LLMs and machine learning across ethics, privacy, safety, and security. Each skill contains scope, triggers, red flags, mitigations, and checklists to support automated or human-in-the-loop reviews.
 

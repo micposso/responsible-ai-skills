@@ -1,5 +1,5 @@
 ---
-name: ai-privacy
+name: privacy
 description: Analyzes AI/LLM applications for privacy violations, PII misuse, biometric data concerns, surveillance risks, and data protection compliance. Focuses on privacy RIGHTS and consent, not security vulnerabilities. Covers GDPR, CCPA, BIPA, facial recognition, emotion detection, location tracking, and user data collection. Complements ai-security (technical exploits) and ai-safety-checker (ethical harm). Triggers when reviewing code involving personal data, biometrics, cameras, location, or data collection.
 ---
 
